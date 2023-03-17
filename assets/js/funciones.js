@@ -44,47 +44,5 @@ function selectMonedas(){
     
 }
 
-function selectActividad(){
-    $.ajax({
-        "url": "./controlador/controladorActividad.php",
-        "type": "POST"
-    }).done(function(resp){
-        var data = JSON.parse(resp);
-                
-        //Se crea una cadena para llenar el select
-        $("#actividad").html(data.actividades);
-    });  
-}
 
 
-
-const formulario = document.querySelector('#formulario');
-const boton = document.querySelector('#boton');
-const resultado = document.querySelector('#resultado');
-const filtrar = ()=>{
-    resultado.innerHTML = '';
-    //console.log(formulario.value);
-    const texto = formulario.value.toLowerCase();
-    for(let producto of productos){
-        let nombre = producto.nombre.toLowerCase();
-        if(nombre.indexOf(texto) !== -1){
-            resultado.innerHTML +=`
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="RadioActividad" value="${producto.id}">
-                <label class="form-check-label" for="flexRadioDefault1">
-                    ${producto.nombre}
-                </label>
-            </div>
-            `
-        }
-    }
-
-    if(resultado.innerHTML === ''){
-        resultado.innerHTML +=`
-            Actividad no encontrada
-            `
-    }
-}
-
-boton.addEventListener('click', filtrar)
-formulario.addEventListener('keyup', filtrar)

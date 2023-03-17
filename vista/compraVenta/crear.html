@@ -61,7 +61,7 @@
                                 <label for="actividad" class="form-label">Actividad</label>
                                 <input type="text" id="formulario" class="form-control">
                                 <button class="btn btn-info mb-2" id="boton">Buscar</button>
-                                <div id="resultado">
+                                <div id="resultado" class="border overflow-auto" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" tabindex="0">
                                     
                                 </div> 
                                 <!--
@@ -92,14 +92,19 @@
     });
 </script>
 <script>
-    const productos = [
-        {id: 1, nombre: 'platano'},
-        {id: 2, nombre: 'pera'},
-        {id: 3, nombre: 'sandia'},
-        {id: 4, nombre: 'melon'},
-        {id: 5, nombre: 'banano'},
-    ];
-
+    function selectActividad(){
+        $.ajax({
+            "url": "./controlador/controladorActividad.php",
+            "type": "POST"
+        }).done(function(resp){
+            var data = JSON.parse(resp);
+            console.log(data.actividades);
+            //Se crea una cadena para llenar el select
+            return data.actividades;
+        });  
+    }
+    var productos = selectActividad();
+    console.log(productos);
     const formulario = document.querySelector('#formulario');
     const boton = document.querySelector('#boton');
     const resultado = document.querySelector('#resultado');
