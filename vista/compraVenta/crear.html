@@ -7,10 +7,10 @@
     <div class="card-header">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Información básica</a>
+              <a class="nav-link active" id="pestInfoBas" aria-current="page" href="#" onclick="pestanaForm1(1)">Información básica</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cronograma</a>
+              <a class="nav-link" id="pestCrono" href="#" onclick="pestanaForm1(2)">Cronograma</a>
             </li>
           </ul>
     </div>
@@ -51,7 +51,7 @@
                                     <label for="presupuesto" class="form-label">Presupuesto</label>
                                     <div class="input-group input-group-sm mb-3">
                                         <span class="input-group-text">$</span>
-                                        <input type="text" class="form-control" id="presupuesto">
+                                        <input type="text" class="form-control" id="presupuesto" onkeypress="return valideKey(event);">
                                       </div>
                                 </div>
                             </div>
@@ -59,18 +59,18 @@
                         <div class="col-md-6">                            
                             <div class="col-md-12 mb-3">
                                 <label for="actividad" class="form-label">Actividad</label>
-                                <input type="text" id="formulario" class="form-control">
-                                <button class="btn btn-info mb-2" id="boton">Buscar</button>
-                                <div id="resultado" class="border overflow-auto" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" tabindex="0">
-                                    
-                                </div> 
-                                <!--
-                                <div class="input-group input-group-sm">
-                                    <select class="form-select form-select-sm" id="actividad" data-placeholder="Consulte la actividad">
-                                        <option value="">Cargando...</option>
-                                    </select>
+                                <div class="input-group input-group-sm mb-3">
+                                    <input type="text" class="form-control" id="actividad" placeholder="Actividad" >
+                                    <span class="input-group-text" id="basic-addon2" onclick="buscaActividad();">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                        </svg>
+                                    </span>
+                                  </div>
+                                <div class="card" style="display:none;" id="cardResult">
+                                    <div class="card-header h5">Resultado</div>
+                                    <div id="resultado" class="border overflow-auto p-2" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" tabindex="0"></div>
                                 </div>
-                                -->
                             </div>
                         </div>
                     </div>
@@ -78,62 +78,42 @@
               </ul>
             
         </div>
+        
+        <div id="infoCronograma" style="display:none">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Cronograma</strong>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="fecIni" class="form-label">Fecha inicio (*)</label>
+                            <input type="date" id="fecIni" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="horIni" class="form-label">Hora inicio (*)</label>
+                            <input type="time" id="horIni" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="fecFin" class="form-label">Fecha fin (*)</label>
+                            <input type="date" id="fecFin" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="horFin" class="form-label">Hora fin (*)</label>
+                            <input type="time" id="horFin" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-foot text-center p-2">
+        <div id="resultadoProceso"></div>
+        <button class="btn btn-success btn-sm" id="guardaProceso" onclick="guardarProceso()">Guardar</button>
     </div>
 </div>
 <script>
     $(document).ready(function(){
         selectMonedas();
-        //selectActividad();
-        $('#actividad').select2( {
-            theme: 'bootstrap-5',
-            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
-            placeholder: $( this ).data( 'placeholder' ),
-        } );
     });
-</script>
-<script>
-    function selectActividad(){
-        $.ajax({
-            "url": "./controlador/controladorActividad.php",
-            "type": "POST"
-        }).done(function(resp){
-            var data = JSON.parse(resp);
-            console.log(data.actividades);
-            //Se crea una cadena para llenar el select
-            return data.actividades;
-        });  
-    }
-    var productos = selectActividad();
-    console.log(productos);
-    const formulario = document.querySelector('#formulario');
-    const boton = document.querySelector('#boton');
-    const resultado = document.querySelector('#resultado');
-    const filtrar = ()=>{
-        resultado.innerHTML = '';
-        //console.log(formulario.value);
-        const texto = formulario.value.toLowerCase();
-        for(let producto of productos){
-            let nombre = producto.nombre.toLowerCase();
-            if(nombre.indexOf(texto) !== -1){
-                resultado.innerHTML +=`
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="RadioActividad" value="${producto.id}">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        ${producto.nombre}
-                    </label>
-                </div>
-                `
-            }
-        }
-
-        if(resultado.innerHTML === ''){
-            resultado.innerHTML +=`
-                Actividad no encontrada
-                `
-        }
-    }
-
-    boton.addEventListener('click', filtrar)
-    formulario.addEventListener('keyup', filtrar)
-    
 </script>

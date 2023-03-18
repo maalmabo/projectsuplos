@@ -5,10 +5,10 @@ require '../modelo/modelo.php';
 
 
 
-$rowProd = ControlAdmin::ctrVerProducto(null, "ver");
+$rowProd = ControlAdmin::ctrVerProducto($_POST['actividad'], "ver");
 
 //Creamos un json
-$respuesta = [
-    "actividades" => $rowProd,
-];
-echo json_encode($respuesta);
+//$respuesta = [
+//    "actividades" => $rowProd,
+//];
+echo json_encode($rowProd);

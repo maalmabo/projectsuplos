@@ -43,6 +43,187 @@ function selectMonedas(){
     });  
     
 }
+function buscaActividad(){
+    actividad = $("#actividad").val();
+    $("#cardResult").show();
+    if(actividad == ''){
+        $("#resultado").html('<div clas="alert alert-danger"><strong>Error!!! El campo actividad no puede estar vacio</div>');
+        return false;
+    }
+    $.ajax({
+        "url": "./controlador/controladorActividad.php",
+        "type": "POST",
+        "data":{
+            actividad:actividad,
+        },
+        "beforeSend": function() {
+            //Mostrar el loading
+            $("#resultado").html('<div class="alert alert-warning"><strong>Cargando información...</strong></div>');
+        },
+        "success": function(resultado){
+            var data = JSON.parse(resultado);
+            cadena = '';
+            if(data.length){
+                for(i = 0; i < data.length; i++){
+                    cadena+=`
+                    <div class="form-check my-2">
+                        <input class="form-check-input" type="radio" name="RadioActividad" id="RadioActividad" value="${data[i]['id']}">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            ${data[i]['nombre']}
+                        </label>
+                    </div>
+                    `
+                }
+            }else{
+                cadena+= '<div class="alert alert-warning"><strong>Upss!!!</strong> No se encontraron coincidencias</div>';
+            }
+            $("#resultado").html(cadena);
+            
+            
+        }
+    });
+}
 
+function pestanaForm1(id){
+    if(id == 1){
+        $("#infoBasica").show();
+        $('#pestInfoBas').addClass('active');
+        $("#infoCronograma").hide();
+        $('#pestCrono').removeClass('active');
+        
+    }else if(id == 2){
+        $("#infoBasica").hide();
+        $('#pestInfoBas').removeClass('active');
+        $("#infoCronograma").show();
+        $('#pestCrono').addClass('active');
+        
+    }
+}
+function valideKey(evt){    
+    // code is the decimal ASCII representation of the pressed key.
+    var code = (evt.which) ? evt.which : evt.keyCode;
+    
+    if(code==8) { // backspace.
+      return true;
+    } else if(code>=48 && code<=57) { // is a number.
+      return true;
+    } else{ // other keys.
+      return false;
+    }
+}
+
+function guardarProceso(){
+    if($("#objeto").val() == ''){//Objeto
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El campo objeto es obligatorio!',
+            footer: ''
+          });
+          return false;
+    }else if($("#descripcion").val() == ''){//Descripcion
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El campo descripcion es obligatorio!',
+            footer: ''
+          });
+          return false;
+    }else if($("#moneda").val() == '0'){//moneda
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El campo moneda es obligatorio!',
+            footer: ''
+          });
+          return false;
+    }else if($("#presupuesto").val() == ''){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El campo presupuesto es obligatorio!',
+            footer: ''
+          });
+          return false;
+    }else if($("input[type=radio][name=RadioActividad]:checked").val() == null){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Debe seleccionar una actividad!',
+            footer: ''
+          });
+          return false;
+    }else if($("#fecIni").val() == ''){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La fecha de inicio es obligatoria!',
+            footer: ''
+          });
+          return false;
+    }else if($("#horIni").val() == ''){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La hora de inicio es obligatoria!',
+            footer: ''
+          });
+          return false;
+    }else if($("#fecFin").val() == ''){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La fecha de final es obligatoria!',
+            footer: ''
+          });
+          return false;
+    }else if($("#horFin").val() == ''){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La hora de final es obligatoria!',
+            footer: ''
+          });
+          return false;
+    }else{
+        objeto = $("#objeto").val();
+        descripcion = $("#descripcion").val();
+        moneda = $("#moneda").val();
+        presupuesto = $("#presupuesto").val();
+        actividad = $("input[type=radio][name=RadioActividad]:checked").val();
+        fecIni = $("#fecIni").val();
+        horIni = $("#horIni").val();
+        fecFin = $("#fecFin").val();
+        horFin = $("#horFin").val();
+        $.ajax({
+            "url": "./controlador/controladorGuardaProceso.php",
+            "type": "POST",
+            "data":{
+                objeto:objeto,
+                descripcion:descripcion,
+                moneda:moneda,
+                presupuesto:presupuesto,
+                actividad:actividad,
+                fecIni:fecIni,
+                horIni:horIni,
+                fecFin:fecFin,
+                horFin:horFin,
+            },
+            "beforeSend": function() {
+                //Mostrar el loading
+                $('#guardaProceso').disabled = true;
+                $("#resultadoProceso").html('<div class="alert alert-warning"><strong>Guardando información...</strong></div>');
+            }
+        }).done(function(resultado){
+            console.log(resultado);
+            $('#guardaProceso').disabled = false;
+            if(resultado == 1){
+                $("#resultadoProceso").html('<div class="alert alert-success"><strong>Excelente!!!</strong> proceso guardado</div>');
+            }else{
+                $("#resultadoProceso").html('<div class="alert alert-danger"><strong>Error!!!</strong> No guardó</div>');
+            }
+        });
+    }
+}
 
 

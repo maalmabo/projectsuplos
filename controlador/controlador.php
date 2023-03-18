@@ -36,4 +36,13 @@ Class ControlAdmin{
 
 		return $respuesta;
 	}
+	/*=====================================
+	Muestra las producto
+	=====================================*/
+	static public function ctrGuardaProceso($objeto,$descripcion,$idMoneda,$presupuesto,$idActividad,$fecIni,$horIni,$fecFin,$horFin,$fecReg,$estado){
+
+		$respuesta = ModeloAdmin::mdlGuardaProceso($objeto,$descripcion,$idMoneda,$presupuesto,$idActividad,$fecIni,$horIni,$fecFin,$horFin,$fecReg,$estado);
+
+		return $respuesta;
+	}
 }
