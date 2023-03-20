@@ -1,0 +1,67 @@
+<div class="row justify-content-end">
+    <div class="col-3 my-2 text-end">
+      <button type="button" class="btn btn-dark btn-sm" onclick="verModulo(1)">< Volver</button>
+    </div>
+  </div>
+<div class="card">
+    <div class="card-header">
+        Procesos / Eventos participación cerrada
+    </div>
+    <div class="card-body">
+        <form id="formBusqueda" method="POST">            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="cidCerrada" class="form-label">ID cerrada</label>
+                    <input type="text" class="form-control form-control-sm" id="cidCerrada" placeholder="Número id procesos/ eventos">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="cObjeto" class="form-label">Objeto / Descripción</label>
+                    <input type="text" class="form-control form-control-sm" id="cObjeto" placeholder="Objeto / descripción">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="cComprador" class="form-label">Comprador</label>
+                    <input type="text" class="form-control form-control-sm" id="cComprador" placeholder="Responsable evento">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="cEstado" class="form-label">Estado</label>
+                    <select id="cEstado" class="form-select form-select-sm">
+                        <option value="0">:::Seleccione:::</option>
+                    </select>
+                </div>
+                <div class="col-md-12 mb-3 text-end">
+                    <button class="btn btn-default border" id="consultProceso" type="button">Buscar</button>
+                    <button class="btn btn-success">General Excel</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-end" id="numProceso">Número de procesos / eventos listados: <strong>0</strong></div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tabProcesos">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Ronda</th>
+                                <th>Objeto</th>
+                                <th>Descripción</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Cierre</th>
+                                <th>idEstado</th>
+                                <th>Estado</th>
+                                <th>Responsable de evento</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./assets/js/funcionesConsultar.js"></script>
+<script>
+    $(document).ready(function(){
+        selectEstado();
+    })
+</script>

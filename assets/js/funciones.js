@@ -6,7 +6,7 @@ function verModulo(id){
     if(id == 0){
         $("#cuerpo").load("./vista/login.html");
     }else{
-        $("#cuerpo").load("./vista/compraVenta/modulos.php");
+        $("#cuerpo").load("./vista/procesos/modulos.php");
     }
 }
 
@@ -211,6 +211,7 @@ function guardarProceso(){
             },
             "beforeSend": function() {
                 //Mostrar el loading
+                $("#resultadoProceso").fadeIn(0);
                 $('#guardaProceso').disabled = true;
                 $("#resultadoProceso").html('<div class="alert alert-warning"><strong>Guardando información...</strong></div>');
             }
@@ -218,12 +219,47 @@ function guardarProceso(){
             console.log(resultado);
             $('#guardaProceso').disabled = false;
             if(resultado == 1){
+                $("#resultadoProceso").fadeIn(0);
                 $("#resultadoProceso").html('<div class="alert alert-success"><strong>Excelente!!!</strong> proceso guardado</div>');
+                $(document).ready(function() {
+                    setTimeout(function() {
+                        $("#cuerpo").load('./vista/procesos/crear.html');
+                    },3000);
+                });
             }else{
-                $("#resultadoProceso").html('<div class="alert alert-danger"><strong>Error!!!</strong> No guardó</div>');
+                $("#resultadoProceso").fadeIn(0);
+                $("#resultadoProceso").html('<div class="alert alert-danger"><strong>Error!!!</strong> No guardó ('+resultado+')</div>');
+                $(document).ready(function() {
+                    setTimeout(function() {                        
+                        $("#resultadoProceso").fadeOut(1500);
+                    },3000);
+                });
+                
             }
         });
     }
+}
+
+
+
+function selectEstado(){
+    
+    $.ajax({
+        "url": "./controlador/controladorEstado.php",
+        "type": "POST"
+    }).done(function(resp){
+        var data = JSON.parse(resp);
+        //Me muestra el archivo relacionado a modulo seleccionado        
+        
+        //Se crea una cadena para llenar el select
+        cadena="<option value='0'>:::Seleccionar:::</option>"; 
+        for(i=0; i < data.estados.length; i++){
+            cadena+="<option value ='"+data.estados[i]['id']+"'>"+data.estados[i]['nombre']+"</option>";
+        }     
+        cadena+="<option value='0'>Todos</option>";    
+        $("#cEstado").html(cadena);
+    });  
+    
 }
 
 

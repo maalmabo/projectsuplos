@@ -4,7 +4,7 @@ require '../controlador/controlador.php';
 require '../modelo/modelo.php';
 
 date_default_timezone_set('America/Bogota');
-
+$Random = uniqid();  
 $estado = 1;
 
 $insertProceso = ControlAdmin::ctrGuardaProceso(
@@ -18,7 +18,8 @@ $insertProceso = ControlAdmin::ctrGuardaProceso(
     $_POST['fecFin'],
     $_POST['horFin'],
     date("Y-m-d H:i:s"),
-    $estado
+    $estado,
+    $Random
 );
 
 //Creamos un json

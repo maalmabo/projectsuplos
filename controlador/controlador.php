@@ -39,10 +39,30 @@ Class ControlAdmin{
 	/*=====================================
 	Muestra las producto
 	=====================================*/
-	static public function ctrGuardaProceso($objeto,$descripcion,$idMoneda,$presupuesto,$idActividad,$fecIni,$horIni,$fecFin,$horFin,$fecReg,$estado){
+	static public function ctrGuardaProceso($objeto,$descripcion,$idMoneda,$presupuesto,$idActividad,$fecIni,$horIni,$fecFin,$horFin,$fecReg,$estado,$random){
 
-		$respuesta = ModeloAdmin::mdlGuardaProceso($objeto,$descripcion,$idMoneda,$presupuesto,$idActividad,$fecIni,$horIni,$fecFin,$horFin,$fecReg,$estado);
+		$respuesta = ModeloAdmin::mdlGuardaProceso($objeto,$descripcion,$idMoneda,$presupuesto,$idActividad,$fecIni,$horIni,$fecFin,$horFin,$fecReg,$estado,$random);
 
 		return $respuesta;
 	}
+	/*=====================================
+	Muestra las estados del proceso
+	=====================================*/
+	static public function ctrVerEstado($id,$funcion){
+
+		$respuesta = ModeloAdmin::mdlVerEstado($id,$funcion);
+
+		return $respuesta;
+	}
+	/*=====================================
+	Consulta los procesos dependiendo de los filtros
+	=====================================*/
+	static public function ctrConsultProceso($idCerrada,$objeto,$comprador,$estado,$funcion){
+
+		$respuesta = ModeloAdmin::mdlConsultProceso($idCerrada,$objeto,$comprador,$estado,$funcion);
+
+		return $respuesta;
+	}
+	
+	
 }
