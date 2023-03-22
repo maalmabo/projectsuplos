@@ -1,6 +1,6 @@
-PHP 8.1
+PHP 8.1,
 
-Versión de base de datos MYSQL
+Versión de base de datos MYSQL,
 
 Proyecto realizado con html, css utilizando el framework Boostrapp 5, javascript, JQuery
 
