@@ -1,0 +1,169 @@
+<div class="row justify-content-end">
+    <div class="col-3 my-2 text-end">
+      <button type="button" class="btn btn-dark btn-sm" onclick="verModulo(1)">< Volver</button>
+    </div>
+  </div>
+<div class="card">
+    <div class="card-header">
+        <!--=============================================================
+            Menú de navegación
+        =============================================================!-->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" id="pestInfoBas" aria-current="page" href="#" onclick="pestanaForm2(1)">Información básica</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pestCrono" href="#" onclick="pestanaForm2(2)">Cronograma</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="pestSubida" href="#" onclick="pestanaForm2(3)">Documentación petición ofertas</a>
+            </li>
+          </ul>
+    </div>
+    <div class="card-body">
+        <!--=============================================================
+            Formulario de información básica
+        =============================================================!-->
+        <div id="infoBasica" style="display:none">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Información básica</strong>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="objeto" class="form-label">Objeto</label>
+                                    <input type="text" class="form-control form-control-sm" id="objeto" disabled>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="descripcion" class="form-label">Descripción / Alcance</label>
+                                    <textarea id="descripcion" class="form-control" disabled></textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="moneda" class="form-label" disabled>Moneda</label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text" id="iconMoneda">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"/>
+                                                <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"/>
+                                                <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"/>
+                                            </svg>
+                                        </span>
+                                        <select class="form-select" id="moneda" disabled>
+                                            <option value="0">:::Seleccione:::</option>
+                                        </select>
+                                      </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="presupuesto" class="form-label">Presupuesto</label>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" id="presupuesto" onkeypress="return valideKey(event);" disabled>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">                            
+                            <div class="col-md-12 mb-3">
+                                <label for="actividad" class="form-label">Actividad</label>
+                                <div class="input-group input-group-sm mb-3">
+                                    <input type="text" class="form-control" id="actividad" placeholder="Actividad" disabled>
+                                    <span class="input-group-text" id="basic-addon2" onclick="buscaActividad();">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                        </svg>
+                                    </span>
+                                  </div>
+                                <div class="card" style="display:none;" id="cardResult">
+                                    <div class="card-header h5">Resultado</div>
+                                    <div id="resultado" class="border overflow-auto p-2" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" tabindex="0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+              </ul>            
+        </div>
+        
+        <!--=============================================================
+            Formulario de cronograma
+        =============================================================!-->        
+        <div id="infoCronograma" style="display:none">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Cronograma</strong>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="fecIni" class="form-label">Fecha inicio (*)</label>
+                            <input type="date" id="fecIni" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="horIni" class="form-label">Hora inicio (*)</label>
+                            <input type="time" id="horIni" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="fecFin" class="form-label">Fecha fin (*)</label>
+                            <input type="date" id="fecFin" class="form-control form-control-sm" disabled>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="horFin" class="form-label">Hora fin (*)</label>
+                            <input type="time" id="horFin" class="form-control form-control-sm" disabled>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    
+        <!--=============================================================
+            Formulario para subida de documentación
+        =============================================================!-->
+        <div id="infoSubida">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Documentación petición oferta</strong>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="titulo" class="form-label">Título (*)</label>
+                            <input type="text" id="titulo" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="descripCont" class="form-label">Descripción del contenido</label>
+                            <textarea type="textarea" id="descripCont" class="form-control"></textarea>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="archivo" class="form-label">Archivo</label>
+                            <input type="file" id="archivo" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <input type="hidden" id="identidad" value="">
+                            <button class="btn btn-dark" id="agregar">+Agregar contenido</button>
+                        </div>
+                        <div class="col-md-12" id="responseImport"></div>
+                        <div class="table mt-2">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Titulo</th>
+                                        <th>Descripción</th>
+                                        <th>Archivo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyArchivo"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-foot text-center p-2">
+    </div>
+</div>
+<script src="./assets/js/funcionesAgregarDoc.js"></script>

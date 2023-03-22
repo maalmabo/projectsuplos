@@ -5,6 +5,9 @@
   </div>
 <div class="card">
     <div class="card-header">
+        <!--=============================================================
+            Menú de navegación
+        =============================================================!-->
         <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" id="pestInfoBas" aria-current="page" href="#" onclick="pestanaForm1(1)">Información básica</a>
@@ -15,6 +18,9 @@
           </ul>
     </div>
     <div class="card-body">
+        <!--=============================================================
+            Formulario de información básica
+        =============================================================!-->
         <div id="infoBasica">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -79,6 +85,9 @@
             
         </div>
         
+        <!--=============================================================
+            Formulario de cronograma
+        =============================================================!-->
         <div id="infoCronograma" style="display:none">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -107,6 +116,10 @@
             </ul>
         </div>
     </div>
+    
+    <!--=============================================================
+        Pie de página para mostrar el boton guardar
+    =============================================================!-->
     <div class="card-foot text-center p-2">
         <div id="resultadoProceso"></div>
         <button class="btn btn-success btn-sm" id="guardaProceso" onclick="guardarProceso()">Guardar</button>
@@ -114,6 +127,9 @@
 </div>
 <script>
     $(document).ready(function(){
+        /*=============================================================
+            Me lista las monedas
+        =============================================================*/
         selectMonedas();
     });
 </script>

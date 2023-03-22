@@ -1,7 +1,14 @@
 $(document).ready(function(){
+    /*=============================================================
+        Si no se ha seleccionado ningun modulo me muestra el boton acceder
+    =============================================================*/
     verModulo(0);
 });
 
+
+/*=============================================================
+    Función para ver con los modulos (crear, copiar, consultar)
+=============================================================*/
 function verModulo(id){
     if(id == 0){
         $("#cuerpo").load("./vista/login.html");
@@ -10,6 +17,10 @@ function verModulo(id){
     }
 }
 
+
+/*=============================================================
+    Función para interactuar con los modulos (crear, copiar, consultar)
+=============================================================*/
 function accion(id){    
     $.ajax({
         "url": "./controlador/controladorModulo.php",
@@ -25,6 +36,10 @@ function accion(id){
     })    
 }
 
+
+/*=============================================================
+    Función ver la monedas y mostrarlas en un select
+=============================================================*/
 function selectMonedas(){
     
     $.ajax({
@@ -43,6 +58,10 @@ function selectMonedas(){
     });  
     
 }
+
+/*=============================================================
+    Función buscar las actividades
+=============================================================*/
 function buscaActividad(){
     actividad = $("#actividad").val();
     $("#cardResult").show();
@@ -84,6 +103,10 @@ function buscaActividad(){
     });
 }
 
+
+/*=============================================================
+    Función para interactuar con las pestañas información básica y cronograma
+=============================================================*/
 function pestanaForm1(id){
     if(id == 1){
         $("#infoBasica").show();
@@ -99,6 +122,10 @@ function pestanaForm1(id){
         
     }
 }
+
+/*=============================================================
+    Función para aceptar solo número
+=============================================================*/
 function valideKey(evt){    
     // code is the decimal ASCII representation of the pressed key.
     var code = (evt.which) ? evt.which : evt.keyCode;
@@ -112,7 +139,15 @@ function valideKey(evt){
     }
 }
 
+
+/*=============================================================
+    Función para guardar el proceso
+=============================================================*/
 function guardarProceso(){
+    
+    /*=============================================================
+        Restricciones vacias
+    =============================================================*/
     if($("#objeto").val() == ''){//Objeto
         Swal.fire({
             icon: 'error',
@@ -186,6 +221,10 @@ function guardarProceso(){
           });
           return false;
     }else{
+        
+        /*=============================================================
+            Se capturan las variables
+        =============================================================*/
         objeto = $("#objeto").val();
         descripcion = $("#descripcion").val();
         moneda = $("#moneda").val();
@@ -195,6 +234,10 @@ function guardarProceso(){
         horIni = $("#horIni").val();
         fecFin = $("#fecFin").val();
         horFin = $("#horFin").val();
+        
+        /*=============================================================
+            Se envía mediante de AJAX
+        =============================================================*/
         $.ajax({
             "url": "./controlador/controladorGuardaProceso.php",
             "type": "POST",
@@ -216,8 +259,15 @@ function guardarProceso(){
                 $("#resultadoProceso").html('<div class="alert alert-warning"><strong>Guardando información...</strong></div>');
             }
         }).done(function(resultado){
-            console.log(resultado);
+            
+            /*=============================================================
+                Se habilita el boton guardaProceso
+            =============================================================*/
             $('#guardaProceso').disabled = false;
+            
+            /*=============================================================
+                Si la respuesta es positiva envia un mensaje
+            =============================================================*/
             if(resultado == 1){
                 $("#resultadoProceso").fadeIn(0);
                 $("#resultadoProceso").html('<div class="alert alert-success"><strong>Excelente!!!</strong> proceso guardado</div>');
@@ -242,6 +292,9 @@ function guardarProceso(){
 
 
 
+/*=============================================================
+    Función para listar los estados y mostrarlos en un select
+=============================================================*/
 function selectEstado(){
     
     $.ajax({

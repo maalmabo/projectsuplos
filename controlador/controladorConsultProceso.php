@@ -3,21 +3,46 @@ require_once '../modelo/modeloConexion.php';
 require '../controlador/controlador.php';
 require '../modelo/modelo.php';
 
-
-
-
-$rowProceso = ControlAdmin::ctrConsultProceso($_POST['idCerrada'],$_POST['objeto'],$_POST['comprador'],$_POST['estado'],"ver");
+/*=============================================================
+    Se consulta los procesos para anexarlos a la tabla
+=============================================================*/
+$rowProceso = ControlAdmin::ctrConsultProceso($_POST['idCerrada'],$_POST['objeto'],$_POST['estado'],"ver");
+$htmlTabla = "";
+$num = 0;
 foreach ($rowProceso as $proceso) {
-    $data['data'][] = $proceso;
+    $htmlTabla.= '
+    <tr>
+        <td>'.$proceso['id'].'</td>
+        <td>'.$proceso['objeto'].'</td>
+        <td>'.$proceso['descripcion'].'</td>
+        <td>'.$proceso['fecIni'].'</td>
+        <td>'.$proceso['fecFin'].'</td>
+        <td>'.$proceso['estado'].'</td>
+        <td>';
+    $htmlTabla.= '
+            <div class="d-grid gap-2">';
+    if($proceso['idEstado'] == 1){
+        $htmlTabla.= '
+                <button type="button" class="btn btn-primary btn-sm" onclick="publicar(';
+        $htmlTabla.= "'".$proceso['identidad']."'";
+        $htmlTabla.= ')">Publicar</button>';
+    }
+    $htmlTabla.= '
+                <button type="button" class="btn btn-dark btn-sm" onclick="subeDocumentacion(';
+        $htmlTabla.= "'".$proceso['identidad']."'";
+        $htmlTabla.= ')">Documentación</button>
+            </div>
+        </td>
+    </tr>';
+    $num++;
 }
 
-if($data){
-    echo json_encode($data);
-}else {
-    echo '{
-        "sEcho": 1,
-        "iTotalRecords": "0",
-        "iTotalDisplayRecords": "0",
-        "Data": []
-    }';
-}
+$respuesta = [
+    "tabla" => $htmlTabla,
+    "cantidad" => $num,
+];
+/*=============================================================
+    Se envían los datos en formato JSON
+=============================================================*/
+echo json_encode($respuesta);
+
